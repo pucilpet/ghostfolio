@@ -40,7 +40,7 @@ Ghostfolio is for you if you are...
 - 🧘 into minimalism
 - 🧺 caring about diversifying your financial resources
 - 🆓 interested in financial independence
-- 🙅 saying no to spreadsheets in 2023
+- 🙅 saying no to spreadsheets
 - 😎 still reading this list
 
 ## Features
@@ -148,7 +148,7 @@ Please follow the instructions of the Ghostfolio [Unraid Community App](https://
 ### Prerequisites
 
 - [Docker](https://www.docker.com/products/docker-desktop)
-- [Node.js](https://nodejs.org/en/download) (version 16+)
+- [Node.js](https://nodejs.org/en/download) (version 16)
 - [Yarn](https://yarnpkg.com/en/docs/install)
 - A local copy of this Git repository (clone)
 

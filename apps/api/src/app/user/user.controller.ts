@@ -1,6 +1,4 @@
-import { ConfigurationService } from '@ghostfolio/api/services/configuration.service';
 import { PropertyService } from '@ghostfolio/api/services/property/property.service';
-import { PROPERTY_IS_USER_SIGNUP_ENABLED } from '@ghostfolio/common/config';
 import { User, UserSettings } from '@ghostfolio/common/interfaces';
 import { hasPermission, permissions } from '@ghostfolio/common/permissions';
 import type { RequestWithUser } from '@ghostfolio/common/types';
@@ -24,6 +22,7 @@ import { User as UserModel } from '@prisma/client';
 import { StatusCodes, getReasonPhrase } from 'http-status-codes';
 import { size } from 'lodash';
 
+import { CreateUserDto } from './create-user.dto';
 import { UserItem } from './interfaces/user-item.interface';
 import { UpdateUserSettingDto } from './update-user-setting.dto';
 import { UserService } from './user.service';
@@ -31,7 +30,6 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   public constructor(
-    private readonly configurationService: ConfigurationService,
     private readonly jwtService: JwtService,
     private readonly propertyService: PropertyService,
     @Inject(REQUEST) private readonly request: RequestWithUser,
@@ -68,7 +66,7 @@ export class UserController {
   }
 
   @Post()
-  public async signupUser(): Promise<UserItem> {
+  public async signupUser(@Body() data: CreateUserDto): Promise<UserItem> {
     const isUserSignupEnabled =
       await this.propertyService.isUserSignupEnabled();
 
@@ -82,7 +80,8 @@ export class UserController {
     const hasAdmin = await this.userService.hasAdmin();
 
     const { accessToken, id, role } = await this.userService.createUser({
-      role: hasAdmin ? 'USER' : 'ADMIN'
+      country: data.country,
+      data: { role: hasAdmin ? 'USER' : 'ADMIN' }
     });
 
     return {

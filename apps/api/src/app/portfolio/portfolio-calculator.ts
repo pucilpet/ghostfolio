@@ -431,6 +431,7 @@ export class PortfolioCalculator {
           : item.investment.div(item.quantity),
         currency: item.currency,
         dataSource: item.dataSource,
+        fee: item.fee,
         firstBuyDate: item.firstBuyDate,
         grossPerformance: !hasErrors ? grossPerformance ?? null : null,
         grossPerformancePercentage: !hasErrors
@@ -447,7 +448,7 @@ export class PortfolioCalculator {
         transactionCount: item.transactionCount
       });
 
-      if (hasErrors) {
+      if (hasErrors && item.investment.gt(0)) {
         errors.push({ dataSource: item.dataSource, symbol: item.symbol });
       }
     }

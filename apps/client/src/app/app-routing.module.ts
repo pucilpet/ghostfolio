@@ -117,6 +117,13 @@ const routes: Routes = [
       ).then((m) => m.TheImportanceOfTrackingYourPersonalFinancesPageModule)
   },
   {
+    path: 'blog/2023/01/ghostfolio-auf-sackgeld-vorgestellt',
+    loadChildren: () =>
+      import(
+        './pages/blog/2023/01/ghostfolio-auf-sackgeld-vorgestellt/ghostfolio-auf-sackgeld-vorgestellt-page.module'
+      ).then((m) => m.GhostfolioAufSackgeldVorgestelltPageModule)
+  },
+  {
     path: 'demo',
     loadChildren: () =>
       import('./pages/demo/demo-page.module').then((m) => m.DemoPageModule)
@@ -215,9 +222,8 @@ const routes: Routes = [
       // Preload all lazy loaded modules with the attribute preload === true
       {
         anchorScrolling: 'enabled',
-        preloadingStrategy: ModulePreloadService,
+        preloadingStrategy: ModulePreloadService
         // enableTracing: true // <-- debugging purposes only
-        relativeLinkResolution: 'legacy'
       }
     )
   ],

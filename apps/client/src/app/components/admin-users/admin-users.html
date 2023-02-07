@@ -7,7 +7,13 @@
             <tr class="mat-header-row">
               <th class="mat-header-cell px-1 py-2 text-right">#</th>
               <th class="mat-header-cell px-1 py-2" i18n>User</th>
-              <th class="mat-header-cell px-1 py-2 text-right">
+              <th
+                *ngIf="hasPermissionForSubscription"
+                class="mat-header-cell px-1 py-2"
+              >
+                <ng-container i18n>Country</ng-container>
+              </th>
+              <th class="mat-header-cell px-1 py-2">
                 <ng-container i18n>Registration</ng-container>
               </th>
               <th class="mat-header-cell px-1 py-2 text-right">
@@ -16,7 +22,10 @@
               <th class="mat-header-cell px-1 py-2 text-right">
                 <ng-container i18n>Activities</ng-container>
               </th>
-              <th class="mat-header-cell px-1 py-2 text-right">
+              <th
+                *ngIf="hasPermissionForSubscription"
+                class="mat-header-cell px-1 py-2 text-right"
+              >
                 <ng-container i18n>Engagement per Day</ng-container>
               </th>
               <th class="mat-header-cell px-1 py-2" i18n>Last Request</th>
@@ -28,10 +37,10 @@
               <td class="mat-cell px-1 py-2 text-right">{{ i + 1 }}</td>
               <td class="mat-cell px-1 py-2">
                 <div class="d-flex align-items-center">
-                  <span class="d-none d-sm-inline-block"
+                  <span class="d-none d-sm-inline-block text-monospace"
                     >{{ userItem.id }}</span
                   >
-                  <span class="d-inline-block d-sm-none"
+                  <span class="d-inline-block d-sm-none text-monospace"
                     >{{ (userItem.id | slice:0:5) + '...' }}</span
                   >
                   <gf-premium-indicator
@@ -41,7 +50,15 @@
                   ></gf-premium-indicator>
                 </div>
               </td>
-              <td class="mat-cell px-1 py-2 text-right">
+              <td
+                *ngIf="hasPermissionForSubscription"
+                class="mat-cell px-1 py-2"
+              >
+                <span class="h5" [title]="userItem.country"
+                  >{{ getEmojiFlag(userItem.country) }}</span
+                >
+              </td>
+              <td class="mat-cell px-1 py-2">
                 {{ formatDistanceToNow(userItem.createdAt) }}
               </td>
               <td class="mat-cell px-1 py-2 text-right">
@@ -58,7 +75,10 @@
                   [value]="userItem.transactionCount"
                 ></gf-value>
               </td>
-              <td class="mat-cell px-1 py-2 text-right">
+              <td
+                *ngIf="hasPermissionForSubscription"
+                class="mat-cell px-1 py-2 text-right"
+              >
                 <gf-value
                   class="d-inline-block justify-content-end"
                   [locale]="user?.settings?.locale"

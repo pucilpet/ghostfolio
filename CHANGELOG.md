@@ -7,9 +7,77 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+
+- Added support to export accounts
+- Added suport to import accounts
+
+### Changed
+
+- Improved the styling in the admin control panel
+
+## 1.232.0 - 2023-02-05
+
+### Changed
+
+- Improved the language localization for German (`de`)
+- Migrated the style of `ActivitiesPageModule` to `@angular/material` `15` (mdc)
+- Migrated the style of `GfCreateOrUpdateActivityDialogModule` to `@angular/material` `15` (mdc)
+- Migrated the style of `GfMarketDataDetailDialogModule` to `@angular/material` `15` (mdc)
+- Upgraded `ng-extract-i18n-merge` from version `2.1.2` to `2.5.0`
+- Upgraded `ngx-markdown` from version `14.0.1` to `15.1.0`
+
+### Fixed
+
+- Fixed the `Upgrade Plan` button of the interstitial for the subscription
+
+## 1.231.0 - 2023-02-04
+
+### Added
+
+- Added the dividend and fees to the position detail dialog
+- Added support to link a (wealth) item to an account
+
+### Changed
+
+- Relaxed the validation rule of the _Redis_ host environment variable (`REDIS_HOST`)
+- Improved the language localization for German (`de`)
+- Eliminated `angular-material-css-vars`
+- Upgraded `angular` from version `14.2.0` to `15.1.2`
+- Upgraded `Nx` from version `15.0.13` to `15.6.3`
+
+## 1.230.0 - 2023-01-29
+
+### Added
+
+- Added an interstitial for the subscription
+- Added _SourceForge_ to the _As seen in_ section on the landing page
+- Added a quote to the blog post _Ghostfolio auf Sackgeld.com vorgestellt_
+
+### Changed
+
+- Improved the unit format (`%`) in the global heat map component of the public page
+- Improved the pricing page
+- Upgraded `Node.js` from version `16` to `18` (`Dockerfile`)
+- Upgraded `prisma` from version `4.8.0` to `4.9.0`
+
+### Fixed
+
+- Fixed the click of unknown accounts in the portfolio proportion chart component
+- Fixed an issue with `value` in the value redaction interceptor for the impersonation mode
+
+## 1.229.0 - 2023-01-21
+
+### Added
+
+- Added a blog post: _Ghostfolio auf Sackgeld.com vorgestellt_
+- Added _Sackgeld.com_ to the _As seen in_ section on the landing page
+
 ### Changed
 
 - Removed the toggle _Original Shares_ vs. _Current Shares_ on the allocations page
+- Hid error messages related to no current investment in the client
+- Refactored the value redaction interceptor for the impersonation mode
 
 ### Fixed
 

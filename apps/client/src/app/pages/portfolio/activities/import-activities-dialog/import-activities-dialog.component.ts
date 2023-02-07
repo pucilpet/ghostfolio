@@ -6,8 +6,12 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { CreateAccountDto } from '@ghostfolio/api/app/account/create-account.dto';
 import { Activity } from '@ghostfolio/api/app/order/interfaces/activities.interface';
 import { DataService } from '@ghostfolio/client/services/data.service';
 import { ImportActivitiesService } from '@ghostfolio/client/services/import-activities.service';
@@ -25,6 +29,7 @@ import { ImportActivitiesDialogParams } from './interfaces/interfaces';
   templateUrl: 'import-activities-dialog.html'
 })
 export class ImportActivitiesDialog implements OnDestroy {
+  public accounts: CreateAccountDto[] = [];
   public activities: Activity[] = [];
   public details: any[] = [];
   public errorMessages: string[] = [];
@@ -80,7 +85,7 @@ export class ImportActivitiesDialog implements OnDestroy {
     }
   }
 
-  public onCancel(): void {
+  public onCancel() {
     this.dialogRef.close();
   }
 
@@ -88,9 +93,10 @@ export class ImportActivitiesDialog implements OnDestroy {
     try {
       this.snackBar.open('⏳ ' + $localize`Importing data...`);
 
-      await this.importActivitiesService.importSelectedActivities(
-        this.selectedActivities
-      );
+      await this.importActivitiesService.importSelectedActivities({
+        accounts: this.accounts,
+        activities: this.selectedActivities
+      });
 
       this.snackBar.open(
         '✅ ' + $localize`Import has been completed`,
@@ -160,6 +166,8 @@ export class ImportActivitiesDialog implements OnDestroy {
           if (file.name.endsWith('.json')) {
             const content = JSON.parse(fileContent);
 
+            this.accounts = content.accounts;
+
             if (!isArray(content.activities)) {
               if (isArray(content.orders)) {
                 this.handleImportError({
@@ -177,10 +185,13 @@ export class ImportActivitiesDialog implements OnDestroy {
             }
 
             try {
-              this.activities = await this.importActivitiesService.importJson({
-                content: content.activities,
-                isDryRun: true
-              });
+              const { activities } =
+                await this.importActivitiesService.importJson({
+                  accounts: content.accounts,
+                  activities: content.activities,
+                  isDryRun: true
+                });
+              this.activities = activities;
             } catch (error) {
               console.error(error);
               this.handleImportError({ error, activities: content.activities });
@@ -189,11 +200,12 @@ export class ImportActivitiesDialog implements OnDestroy {
             return;
           } else if (file.name.endsWith('.csv')) {
             try {
-              this.activities = await this.importActivitiesService.importCsv({
+              const data = await this.importActivitiesService.importCsv({
                 fileContent,
                 isDryRun: true,
                 userAccounts: this.data.user.accounts
               });
+              this.activities = data.activities;
             } catch (error) {
               console.error(error);
               this.handleImportError({
